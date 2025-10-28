@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dictionary App</title>
+</head>
+<body>
+    <h1>Dictionary Search</h1>
+    <input type="text" id="wordInput" placeholder="Enter a word">
+    <button onclick="searchWord()">Search</button>
+    <div id="result"></div>
+
+    <script>
+        async function searchWord() {
+            const word = document.getElementById('wordInput').value;
+            if (!word) return;
+            try {
+                const response = await fetch(`/define/${word}`);
+                const data = await response.json();
+                if (data.error) {
+                    document.getElementById('result').innerHTML = 'Error: ' + data.error;
+                } else {
+                    document.getElementById('result').innerHTML = JSON.stringify(data.data, null, 2);
+                }
+            } catch (error) {
+                document.getElementById('result').innerHTML = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
